@@ -49,15 +49,17 @@ class BharatData:
             return_full=True
         )
 
-    def get_crime_summary(self, state: str, year: int,
-                           category: str) -> List[Dict[str, Any]]:
+    def get_crime_summary(
+            self, state: str, year: int, category: str
+    ) -> List[Dict[str, Any]]:
         """Backward compatibility for existing crime reports."""
         params = {"entity": state, "year": year, "category": category}
         res = self.query("ncrb-crime", "summary", **params)
         return res.get("data", [])
 
-    def to_dataframe(self, response: Union[List[Dict[str, Any]],
-                                          Dict[str, Any]]) -> pd.DataFrame:
+    def to_dataframe(
+            self, response: Union[List[Dict[str, Any]], Dict[str, Any]]
+    ) -> pd.DataFrame:
         """
         Converts API response to a pandas DataFrame.
         Handles both the raw data list and the full response envelope.
@@ -91,7 +93,9 @@ class BharatData:
         """Generate a standard citation for a data record or DataFrame."""
         if isinstance(record_or_df, pd.DataFrame):
             meta = record_or_df.attrs.get("metadata", {})
-            source = meta.get("attribution", "BharatData / Government of India")
+            source = meta.get(
+                "attribution", "BharatData / Government of India"
+            )
             dataset = meta.get("dataset", "Unknown Dataset")
             return (f"Source: {source} (via BharatData: {dataset}). "
                     f"Accessed: {meta.get('timestamp', 'Recent')}")
