@@ -63,8 +63,7 @@ temp_downloads/
 # Keep the schema but ignore the data if preferred
 # !data/schema.sql
 
-# Documentation & Assets
-Docs/assets/logo_full.png
+
 # (Exclude specific large binaries if needed)
 
 # Python Specific
