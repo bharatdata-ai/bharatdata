@@ -1,3 +1,5 @@
+"use client";
+
 import dynamic from "next/dynamic";
 
 // SSR-Safe Dynamic Isolation for 404
