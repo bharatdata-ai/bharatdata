@@ -1,0 +1,14 @@
+[build]
+  # Set base to root to see the entire monorepo
+  base = ""
+  # Use turbo to build only the playground package
+  command = "npx turbo run build --filter=@bharatdata/playground"
+  # Target the playground's output directory
+  publish = "packages/playground/.next"
+
+[build.environment]
+  NEXT_PUBLIC_API_URL = "https://api.bharatdata.dev"
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
