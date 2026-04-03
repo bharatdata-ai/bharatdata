@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import { Newsreader, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
-import dynamic from "next/dynamic";
-
-const Header = dynamic(() => import("../components/layout/Header").then(mod => mod.Header), { ssr: false });
-const Footer = dynamic(() => import("../components/layout/Footer").then(mod => mod.Footer), { ssr: false });
+import { ClientLayoutWrapper } from "../components/layout/ClientLayoutWrapper";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -41,14 +38,10 @@ export default function RootLayout({
        <head>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       </head>
-      <body className="bg-background text-on-background font-body antialiased selection:bg-primary/10 selection:text-primary">
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-grow">
-            {children}
-          </main>
-          <Footer />
-        </div>
+      <body className="bg-background text-on-surface font-body antialiased selection:bg-primary/10 selection:text-primary">
+        <ClientLayoutWrapper>
+          {children}
+        </ClientLayoutWrapper>
       </body>
     </html>
   );
