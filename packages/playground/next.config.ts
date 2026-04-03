@@ -7,8 +7,16 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Use standard server externals to handle heavy libraries in the SSR environment.
+  // CRITICAL: Next.js 15 requires explicit transpilation of monorepo packages.
+  // Without this, internal packages (@bharatdata/shared, @bharatdata/typescript-sdk)
+  // may load duplicate React instances, causing the 'useContext null' crash.
+  transpilePackages: ["@bharatdata/shared", "@bharatdata/typescript-sdk"],
+  
+  // Prevent Leaflet from being bundled into the SSR worker.
   serverExternalPackages: ["leaflet"],
+  
+  reactStrictMode: false, // Minimizes dispatcher overhead during static workers
+  
   experimental: {
     optimizePackageImports: ["framer-motion", "lucide-react"],
   },
