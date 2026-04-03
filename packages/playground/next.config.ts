@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   },
   // Prevent heavy client-side libraries from being bundled into the SSR worker.
   // This is the absolute fix for useContext null errors in Next.js 15 workers.
-  serverExternalPackages: ["leaflet", "framer-motion", "lucide-react"],
+  serverExternalPackages: ["leaflet"],
   experimental: {
     optimizePackageImports: ["framer-motion", "lucide-react"],
   },
