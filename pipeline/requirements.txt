@@ -11,4 +11,4 @@ requests
 beautifulsoup4
 lxml
 pypdf
-# playwright >= 1.40.0 # Optional: Only for browser rendering sources
+playwright>=1.40.0
