@@ -18,6 +18,7 @@ on:
 jobs:
   ingest-source:
     runs-on: ubuntu-latest
+    environment: bharatdata
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -77,6 +78,7 @@ jobs:
   deploy-api:
     needs: ingest-source
     runs-on: ubuntu-latest
+    environment: bharatdata
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout Code
