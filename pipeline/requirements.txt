@@ -12,3 +12,4 @@ beautifulsoup4
 lxml
 pypdf
 playwright>=1.40.0
+PyYAML
