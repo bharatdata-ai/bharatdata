@@ -1,6 +1,13 @@
 import argparse
 import sys
 import os
+
+# Add root to sys.path so we can import from 'pipeline' as a package
+# Script is 2 levels deep from root (pipeline/engine/run_universal.py)
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if root_dir not in sys.path:
+    sys.path.insert(0, root_dir)
+
 from dotenv import load_dotenv
 from pipeline.engine.orchestrator import Orchestrator
 
