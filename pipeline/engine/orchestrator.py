@@ -54,9 +54,11 @@ class Orchestrator:
             # Try matching against full path then basename
             match = re.search(pattern, file_path) or re.search(pattern, base_name)
             if match:
-                val = match.group(1)
+                # If there are capturing groups, take the first one; otherwise take the whole match
+                val = match.group(1) if match.groups() else match.group(0)
+                
                 # Auto-cast year to int if possible
-                if key == 'year' and val.isdigit():
+                if key == 'year' and isinstance(val, str) and val.isdigit():
                     metadata[key] = int(val)
                 else:
                     metadata[key] = val

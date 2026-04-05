@@ -17,7 +17,7 @@ extraction:
   format: xlsx
   metadata_patterns:
     year: "2011" # Fixed for this source
-    state: "PCA_Full_(.*)\\.xlsx" # Pattern to extract state name from official filename
+    state: "PCA11-([A-Z0-9]+)" # Extract state/code from filename (e.g. A05APPX)
   header_detection:
     method: pattern_match
     pattern: "^(State|District|Sub-district|Village|TOT_P)$"
