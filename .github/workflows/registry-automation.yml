@@ -4,6 +4,11 @@ on:
   push:
     paths:
       - 'pipeline/engine/registry/*.yaml'
+      - '.github/workflows/registry-automation.yml'
+  pull_request:
+    paths:
+      - 'pipeline/engine/registry/*.yaml'
+      - '.github/workflows/registry-automation.yml'
   workflow_dispatch:
     inputs:
       source:
