@@ -125,11 +125,9 @@ class Orchestrator:
                             if key not in ['id', 'last_updated']:
                                 schema_hints[key] = type(val)
                         
+                        # Use identity fields to find the primary entity for resolution
                         identity_fields = source_def['storage'].get('unique_key', ['state', 'year', 'entity_name'])
                         all_fields = list(schema_hints.keys())
-                        
-                        # Use the first unique_key field as the primary entity for resolution (usually state or entity_name)
-                        primary_key_field = identity_fields[0] if identity_fields else 'state'
                         
                         for raw in raw_records:
                             # 1. Ensure all defined fields exist in raw record for the NullHandler
@@ -137,9 +135,17 @@ class Orchestrator:
                                 if f not in raw: raw[f] = None
                                 
                             # Skip garbage footer rows (but allow single digit codes)
-                            primary_entity = str(raw.get(primary_key_field) or "").strip()
-                            is_garbage = not primary_entity or (len(primary_entity) < 2 and not primary_entity.isdigit())
-                            if is_garbage or primary_entity.upper() in ["NOTE", "SOURCE", "FOOTNOTE"]:
+                            primary_entity = None
+                            primary_key_field = identity_fields[0] if identity_fields else 'state'
+                            
+                            for field in identity_fields:
+                                val = str(raw.get(field) or "").strip()
+                                if val and (len(val) >= 2 or val.isdigit()) and val.upper() not in ["NOTE", "SOURCE", "FOOTNOTE"]:
+                                    primary_entity = val
+                                    primary_key_field = field
+                                    break
+                            
+                            if not primary_entity:
                                 continue
                             
                             deductions = 0.0

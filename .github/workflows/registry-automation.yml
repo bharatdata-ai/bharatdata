@@ -2,6 +2,7 @@ name: Source Registry Automation
 
 on:
   push:
+    branches: [ main ]
     paths:
       - 'pipeline/engine/registry/*.yaml'
       - '.github/workflows/registry-automation.yml'
