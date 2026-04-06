@@ -9,15 +9,15 @@ acquisition:
   url: "https://censusindia.gov.in/census.website/data/census-tables"
   link_selector: "a[href$='.xlsx']"
   filters:
-    include: ["PCA", "11"]
-    exclude: ["ST", "SC"] # Target General PCA first
+    include: ["PCA"]
+    exclude: ["Appendix", "A-2", "A-3", "A-4", "Variation"]
   output_dir: "data/raw/census-2011"
 
 extraction:
   format: xlsx
   metadata_patterns:
-    year: "2011" # Fixed for this source
-    state: "PCA11-([A-Z0-9]+)" # Extract state/code from filename (e.g. A05APPX)
+    year: "2011"
+    state: "(?:PCA|DDW_PCA).*-([A-Z0-9]+)" 
   header_detection:
     method: pattern_match
     pattern: "^(State|District|Sub-district|Village|TOT_P)$"
