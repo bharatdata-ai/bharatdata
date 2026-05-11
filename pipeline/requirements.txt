@@ -14,3 +14,4 @@ pypdf
 playwright>=1.40.0
 PyYAML
 jsonschema
+crawl4ai>=0.4.0
