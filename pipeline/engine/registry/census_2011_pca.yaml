@@ -1,0 +1,44 @@
+# Census 2011 Primary Census Abstract Registry
+# This defines the source for Census 2011 PCA data
+
+id: census_2011_pca
+name: Census 2011 Primary Census Abstract
+description: Village and town-wise population data from Census 2011
+publishingBody: Office of the Registrar General & Census Commissioner India
+sourceUrl: https://censusindia.gov.in
+updateFrequency: decadal
+status: active
+
+# Data is already loaded in Supabase
+# Table: census_2011_pca
+# Records: 596,393
+ingestion:
+  status: completed
+  lastRun: "2026-05-11"
+  recordsLoaded: 596393
+
+# Available fields in the dataset
+availableFields:
+  - id
+  - shrid2
+  - state_code
+  - district_code
+  - subdistrict_code
+  - village_code
+  - region
+  - is_urban
+  - total_population
+  - male_population
+  - female_population
+  - age_0_6_population
+  - sc_population
+  - st_population
+  - literate_population
+  - illiterate_population
+  - worker_population
+  - non_worker_population
+  - household_count
+  - literacy_rate
+  - worker_ratio
+  - sex_ratio
+  - created_at
