@@ -26,11 +26,7 @@ interface IndiaMapProps {
 }
 
 const COLOR_STEPS = ["#F8FAFC", "#BAE6FD", "#38BDF8", "#0369A1", "#082F49"]; // Premium Sky/Ocean Palette
-const GEO_JSON_SOURCES = [
-  "/maps/india_districts.json", // Local high-reliability source
-  "https://cdn.jsdelivr.net/gh/Anuj-Nigam/India-GeoJSON@master/India_Districts.json", 
-  "https://code.highcharts.com/mapdata/countries/in/in-all.geo.json"
-];
+const FALLBACK_MAP_URL = "https://code.highcharts.com/mapdata/countries/in/in-all.geo.json";
 
 export function IndiaMap({ data, metric = "total_cases", category = "entity_name", title }: IndiaMapProps) {
   const [geoData, setGeoData] = useState<any>(null);
@@ -38,26 +34,36 @@ export function IndiaMap({ data, metric = "total_cases", category = "entity_name
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Unique ID for this map instance to prevent Leaflet conflicts
   const mapId = useMemo(() => `map-container-${Math.random().toString(36).substr(2, 9)}`, []);
 
   useEffect(() => {
     setIsMounted(true);
-    
-    // Fetch both District and State boundaries for high-fidelity rendering
+
+    // Fetch map data - try local first, fallback to CDN
     const fetchMaps = async () => {
       try {
+        // Try local files first
         const [distRes, stateRes] = await Promise.all([
-          fetch("/maps/india_districts.json"),
-          fetch("/maps/india_states.json")
+          fetch("/maps/india_districts.json").catch(() => null),
+          fetch("/maps/india_states.json").catch(() => null)
         ]);
-        
-        if (!distRes.ok || !stateRes.ok) throw new Error("Local map storage unreachable");
-        
-        const [distJson, stateJson] = await Promise.all([distRes.json(), stateRes.json()]);
-        setGeoData(distJson);
-        setStateData(stateJson);
+
+        if (distRes?.ok && stateRes?.ok) {
+          const [distJson, stateJson] = await Promise.all([distRes.json(), stateRes.json()]);
+          setGeoData(distJson);
+          setStateData(stateJson);
+        } else {
+          // Fallback to Highcharts CDN
+          const response = await fetch(FALLBACK_MAP_URL);
+          if (!response.ok) throw new Error("Map CDN unreachable");
+
+          const geoJson = await response.json();
+          // Use same data for both state and district level (Highcharts provides state-level)
+          setGeoData(geoJson);
+          setStateData(geoJson);
+        }
         setLoading(false);
       } catch (err) {
         console.error("Map fetch error:", err);
