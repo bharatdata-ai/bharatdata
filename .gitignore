@@ -91,6 +91,7 @@ Docs/notes/
 # === Agent & AI Tools ===
 .agents/
 .claude/
+CLAUDE.md
 .gemini/
 .github/agents/
 .github/copilot-instructions.md
